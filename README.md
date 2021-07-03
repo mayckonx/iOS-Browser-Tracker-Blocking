@@ -2,7 +2,7 @@
 
 ### Architecture
 
-![mvvm-c](https://ibb.co/j4PRmPm)
+![mvvm-c](https://imgur.com/fPSF4XX)
 
 
 Here's a snipped code of the MVVM-C that we're going to use in our MVP. 
