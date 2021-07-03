@@ -1,6 +1,12 @@
 # MVVM-C Architecture
 
+### Architecture
+
+![mvvm-c](https://ibb.co/j4PRmPm)
+
+
 Here's a snipped code of the MVVM-C that we're going to use in our MVP. 
+
 
 ### BaseCoordinator
 
