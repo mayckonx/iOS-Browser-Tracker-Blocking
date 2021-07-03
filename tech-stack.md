@@ -20,5 +20,6 @@ To store user's preferences data such as to enable/disable blocker tracking, etc
 ### External Libraries
 
 ### Moya
-a well-maintained network library that provides a comprehensive and simple abstraction of the callings for Alamofire to perform network requests of any kind.
+https://github.com/Moya/Moya
+Moya is a well-maintained network library that provides a comprehensive and simple abstraction of the callings for Alamofire to perform network requests of any kind.
 
