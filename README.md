@@ -5,6 +5,9 @@ Here's a snipped code of the MVVM-C that we're going to use in our MVP.
 ### Coordinator
 
 ```swift
+import UIKit
+import Combine
+
 final class BrowserCoordinator: BaseCoordinator<Void> {
     
     private let window: UIWindow
@@ -38,6 +41,9 @@ final class BrowserCoordinator: BaseCoordinator<Void> {
 ### ViewController
 
 ```swift
+import UIKit
+import Combine
+
 final class BrowserViewController: UIViewController {
     public var cancellables = Set<AnyCancellable>()
     private let mainView = BrowserView()
@@ -62,6 +68,8 @@ final class BrowserViewController: UIViewController {
 ### View
 
 ```swift
+import UIKit
+
 final class BrowserView: UIView {
     /// Raw UILabel that will receive the value from the ViewModel.
     lazy var webTextLabel: UILabel = {
@@ -81,6 +89,8 @@ final class BrowserView: UIView {
 ### ViewModel
 
 ```swift
+import Combine
+
 final class BrowserViewModel  {
     /// Bindable property. 
     ///It can also be used as an observer and receive input from the UI.
