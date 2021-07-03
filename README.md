@@ -113,9 +113,9 @@ import UIKit
 import Combine
 
 final class BrowserViewController: UIViewController {
-    public var cancellables = Set<AnyCancellable>()
-    private let mainView = BrowserView()
+    var cancellables = Set<AnyCancellable>()
     let viewModel: BrowserViewModel
+    private let mainView = BrowserView()
     
     required init(viewModel: BrowserViewModel) {
         self.viewModel = viewModel
