@@ -1,3 +1,4 @@
+
 # MVVM-C Architecture
 
 ### Architecture
@@ -5,18 +6,30 @@
 ![img](https://i.imgur.com/fPSF4XX.png)
 
 
+#### Model 
+Contains domain objects and data access layer. There can be structures, DTOs, rest client, database client, etc.
+View - is the UI layout designed using selected technology. In our case, we will use UIViews created programmatically. 
+
+#### ViewModel
+The connecting layer between View and Model responsible for preparing, loading, updating and formatting Model to be displayed on View. It can use dependencies like database client to fetch or modify Model. 
+
+#### ViewController
+The ViewController contains the View and the ViewModel and acts as the connection point to bind the View and the ViewModel. 
+
+
+#### Coordinator
+The coordinator separates the navigation logic from View and ViewModel and makes views reusable. This approach additionally solves problems like deep navigation when omitting the usual flow to display a specific screen, besides it makes code more decoupled. Also, the Coordinator can listen to changes thrown by the ViewModel of its scene and inject the outputs into the sub coordinators.
+
 Here's a snipped code of the MVVM-C that we're going to use in our MVP. 
 
 
 ### BaseCoordinator
 
 ```swift
-import Combine
-
 /// Base abstract coordinator generic over the return type of the `start` method.
 open class BaseCoordinator<ResultType> {
     
-    /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
+    /// Typealias which will allow to access a ResultType of the Coordinator by `CoordinatorName.CoordinationResult`.
     typealias CoordinationResult = ResultType
     
     /// Utility `Set<AnyCancellable>` used by the subclasses.
@@ -73,9 +86,6 @@ open class BaseCoordinator<ResultType> {
 ### Coordinator
 
 ```swift
-import UIKit
-import Combine
-
 final class BrowserCoordinator: BaseCoordinator<Void> {
     
     private let window: UIWindow
@@ -109,13 +119,10 @@ final class BrowserCoordinator: BaseCoordinator<Void> {
 ### ViewController
 
 ```swift
-import UIKit
-import Combine
-
 final class BrowserViewController: UIViewController {
-    var cancellables = Set<AnyCancellable>()
-    let viewModel: BrowserViewModel
+    public var cancellables = Set<AnyCancellable>()
     private let mainView = BrowserView()
+    let viewModel: BrowserViewModel
     
     required init(viewModel: BrowserViewModel) {
         self.viewModel = viewModel
@@ -136,8 +143,6 @@ final class BrowserViewController: UIViewController {
 ### View
 
 ```swift
-import UIKit
-
 final class BrowserView: UIView {
     /// Raw UILabel that will receive the value from the ViewModel.
     lazy var webTextLabel: UILabel = {
@@ -157,8 +162,6 @@ final class BrowserView: UIView {
 ### ViewModel
 
 ```swift
-import Combine
-
 final class BrowserViewModel  {
     /// Bindable property. 
     ///It can also be used as an observer and receive input from the UI.
