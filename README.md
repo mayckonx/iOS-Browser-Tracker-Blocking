@@ -2,6 +2,68 @@
 
 Here's a snipped code of the MVVM-C that we're going to use in our MVP. 
 
+### BaseCoordinator
+
+```swift
+import Combine
+
+/// Base abstract coordinator generic over the return type of the `start` method.
+open class BaseCoordinator<ResultType> {
+    
+    /// Typealias which will allows to access a ResultType of the Coordainator by `CoordinatorName.CoordinationResult`.
+    typealias CoordinationResult = ResultType
+    
+    /// Utility `Set<AnyCancellable>` used by the subclasses.
+    public let cancellable = Set<AnyCancellable>()
+    
+    /// Unique identifier.
+    private let identifier = UUID()
+    
+    /// Dictionary of the child coordinators. Every child coordinator should be added
+    /// to that dictionary in order to keep it in memory.
+    /// Key is an `identifier` of the child coordinator and value is the coordinator itself.
+    /// Value type is `Any` because Swift doesn't allow to store generic types in the array.
+    private var childCoordinators = [UUID: Any]()
+    
+    /// Initializer
+    public init() {}
+    
+    /// Stores coordinator to the `childCoordinators` dictionary.
+    ///
+    /// - Parameter coordinator: Child coordinator to store.
+    private func store<T>(coordinator: BaseCoordinator<T>) {
+        childCoordinators[coordinator.identifier] = coordinator
+    }
+    
+    /// Release coordinator from the `childCoordinators` dictionary.
+    ///
+    /// - Parameter coordinator: Coordinator to release.
+    private func free<T>(coordinator: BaseCoordinator<T>) {
+        childCoordinators[coordinator.identifier] = nil
+    }
+    
+    /// 1. Stores coordinator in a dictionary of child coordinators.
+    /// 2. Calls method `start()` on that coordinator.
+    /// 3. On the `handleEvents:` of returning observable of method `start()` removes coordinator from the dictionary.
+    ///
+    /// - Parameter coordinator: Coordinator to start.
+    /// - Returns: Result of `start()` method.
+    open func coordinate<T>(to coordinator: BaseCoordinator<T>) -> AnyPublisher<T, Never> {
+        store(coordinator: coordinator)
+        return coordinator.start()
+            .handleEvents(receiveCompletion: { _ in self.free(coordinator: coordinator)})
+            .eraseToAnyPublisher()
+    }
+    
+    /// Starts job of the coordinator.
+    ///
+    /// - Returns: Result of coordinator job.
+    open  func start() -> AnyPublisher<ResultType, Never> {
+        fatalError("Start method should be implemented.")
+    }
+}
+```
+
 ### Coordinator
 
 ```swift
