@@ -12,6 +12,7 @@ View - is the UI layout designed using selected technology. In our case, we will
 
 #### ViewModel
 The connecting layer between View and Model responsible for preparing, loading, updating and formatting Model to be displayed on View. It can use dependencies like database client to fetch or modify Model. 
+The ViewModel can receive services to perform specific operations, like network calls, database updates and so on. These injections should be done through the initializer where the protocols are exposed, this way we can easily test the ViewModel with those dependencies. 
 
 #### ViewController
 The ViewController contains the View and the ViewModel and acts as the connection point to bind the View and the ViewModel. 
