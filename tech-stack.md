@@ -22,3 +22,5 @@ To store user's preferences data such as to enable/disable blocker tracking, etc
 ### [Moya](https://github.com/Moya/Moya)
 Moya is a well-maintained network library that provides a comprehensive and simple abstraction of the callings for Alamofire to perform network requests of any kind.
 
+### [TrackerRadarKit](https://github.com/duckduckgo/TrackerRadarKit)
+Tracker Radar identifies the trackers that can be totally blocked from loading at all without breaking websites. This library is developed and maintained by DuckDuckGo and covers most of the biggest trackers nowadays. 
